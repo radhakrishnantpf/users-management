@@ -1,16 +1,18 @@
 package com.sukri.users.management.service;
 
-import com.sukri.users.management.dto.User;
 import com.sukri.users.management.entity.UserDetails;
-import com.sukri.users.management.repository.AddressRepository;
+import com.sukri.users.management.enums.Common4XXExceptionEnum;
+import com.sukri.users.management.exception.SearchFieldNotProvidedException;
+import com.sukri.users.management.exception.UserNotFoundException;
 import com.sukri.users.management.repository.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -18,22 +20,48 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
+    private final ModelMapper modelMapper;
 
-    public List<User> getAllUserDetails() {
-        List<UserDetails> usersEntity = userRepository.findAll();
-        return usersEntity.stream().map(t -> {
-            User user = User.builder().build();
-            BeanUtils.copyProperties(t, user);
-            return user;
-        }).collect(Collectors.toList());
+    public List<UserDetails> getAllUserDetails(String firstName, String lastName) {
+        log.info("FirstName = {}, LastName = {}", firstName, lastName);
+        if (isFirstNameAndLastNameProvided(firstName, lastName)) {
+            return findByFirstNameAndLastName(firstName, lastName);
+        }
+        return getAllUserDetails();
     }
 
-    public User getUserDetails(String firstName, String lastName) {
-        return User.builder().build();
+    public UserDetails updateUserDetails(String empId, UserDetails user) {
+        log.info("EmpId:: {}", empId);
+        log.info("Input User details: {}", user.toString());
+        Optional<UserDetails> existingUser = userRepository.findByEmpId(empId);
+        return existingUser.map(userToBeSaved -> {
+            log.info("Input: {}", userToBeSaved);
+            modelMapper.map(user, userToBeSaved);
+            userRepository.save(userToBeSaved);
+            log.info(userToBeSaved.toString());
+            return userToBeSaved;
+        }).orElseThrow(() -> new UserNotFoundException("Provided user not found, please check the provided user id"));
     }
 
-    public void updateUserDetails(User user) {
+    public List<UserDetails> getAllUserDetails() {
+        return userRepository.findAll();
+    }
 
+    public List<UserDetails> findByFirstNameAndLastName(String firstName, String lastName) {
+        return userRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    private boolean isFirstNameAndLastNameProvided(String firstName, String lastName) {
+        if (StringUtils.isBlank(firstName) && StringUtils.isNotBlank(lastName)) {
+            throw new SearchFieldNotProvidedException(
+                    List.of(Common4XXExceptionEnum.FIRST_NAME_OR_LAST_NAME_NOT_PROVIDED
+                            .getError("firstname")));
+        }
+        if (StringUtils.isNotBlank(firstName) && StringUtils.isBlank(lastName)) {
+            throw new SearchFieldNotProvidedException(
+                    List.of(Common4XXExceptionEnum.FIRST_NAME_OR_LAST_NAME_NOT_PROVIDED
+                            .getError("lastname")));
+        }
+        return (StringUtils.isNotBlank(firstName) && StringUtils.isNotBlank(lastName));
     }
 }

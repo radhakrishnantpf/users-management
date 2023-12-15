@@ -1,1 +1,1 @@
-insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, created_date_time, updated_date_time, active) values (1,'Mr', 'Radhakrishnan', 'Adhimoolam', 'male','1', now(), now(), true);
+insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, created_date_time, updated_date_time) values (1,'Mr', 'Radhakrishnan', 'Adhimoolam', 'male','1', now(), now());

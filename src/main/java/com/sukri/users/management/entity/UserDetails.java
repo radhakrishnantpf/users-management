@@ -1,5 +1,8 @@
 package com.sukri.users.management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,22 +12,22 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "user_details")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
-    @Column(name="title")
     private String title;
-    @Column(name = "first_name")
+    @JsonProperty("firstname")
     private String firstName;
-    @Column(name = "last_name")
+    @JsonProperty("lastName")
     private String lastName;
-    @Column(name = "gender")
     private String gender;
-    @Column(name = "emp_id")
+    @JsonProperty("empid")
     private String empId;
-    @CreationTimestamp
+    @JsonIgnore
     private Date createdDateTime;
-    @CreationTimestamp
+    @JsonIgnore
     private Date updatedDateTime;
 }
