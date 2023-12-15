@@ -1,4 +1,4 @@
-package com.sukri.users.management.exception;
+package com.sukri.users.management.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
