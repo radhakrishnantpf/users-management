@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,14 +32,11 @@ public class UserService {
     }
 
     public UserDetails updateUserDetails(String empId, UserDetails user) {
-        log.info("EmpId:: {}", empId);
-        log.info("Input User details: {}", user.toString());
         Optional<UserDetails> existingUser = userRepository.findByEmpId(empId);
         return existingUser.map(userToBeSaved -> {
-            log.info("Input: {}", userToBeSaved);
             modelMapper.map(user, userToBeSaved);
+            userToBeSaved.setUpdatedDateTime(new Date());
             userRepository.save(userToBeSaved);
-            log.info(userToBeSaved.toString());
             return userToBeSaved;
         }).orElseThrow(() -> new UserNotFoundException("Provided user not found, please check the provided user id"));
     }

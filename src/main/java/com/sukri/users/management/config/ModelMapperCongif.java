@@ -9,6 +9,8 @@ public class ModelMapperCongif {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setPropertyCondition(context -> context.getSource() != null);
+        return modelMapper;
     }
 }

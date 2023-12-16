@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class BaseException extends RuntimeException {
     private List<ErrorInfo> errors;
 
-    BaseException(List<ErrorInfo> errors) {
+    public BaseException(List<ErrorInfo> errors) {
         this.errors = errors;
     }
 }
