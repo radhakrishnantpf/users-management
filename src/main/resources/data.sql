@@ -18,3 +18,6 @@ insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, create
 insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, created_date_time, updated_date_time) values (18,'Mr', 'Test18', 'Adhimoolam', 'male','1018', now(), now());
 insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, created_date_time, updated_date_time) values (19,'Mr', 'Test19', 'Adhimoolam', 'male','1019', now(), now());
 insert into USER_DETAILS(id, title, first_name, last_name, gender,emp_id, created_date_time, updated_date_time) values (20,'Mr', 'Test20', 'Adhimoolam', 'male','1020', now(), now());
+
+insert into ADDRESS_DETAILS(id, street, city, state, postcode, created_date_time, updated_date_time, user_id) values (1, 'Garfield St', 'Wentworthville', 'NSW', 2145, now(), now(), 1);
+insert into ADDRESS_DETAILS(id, street, city, state, postcode, created_date_time, updated_date_time, user_id) values (2, 'Medical St', 'Pendle Hill', 'NSW', 2150, now(), now(), 1);
