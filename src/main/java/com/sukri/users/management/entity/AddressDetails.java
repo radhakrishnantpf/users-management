@@ -17,14 +17,17 @@ public class AddressDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     private String street;
     private String city;
     private String state;
     private Long postcode;
     @CreationTimestamp
+    @JsonIgnore
     private Date createdDateTime;
     @CreationTimestamp
+    @JsonIgnore
     private Date updatedDateTime;
     @ManyToOne
     @JoinColumn(name = "user_id")

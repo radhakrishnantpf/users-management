@@ -23,9 +23,12 @@ public class UserDetails implements Serializable {
     @JsonIgnore
     private Long id;
     private String title;
+    @JsonProperty("firstname")
     private String firstName;
+    @JsonProperty("lastName")
     private String lastName;
     private String gender;
+    @JsonProperty("empid")
     private String empId;
     @JsonIgnore
     private Date createdDateTime;

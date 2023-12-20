@@ -9,9 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -19,8 +22,11 @@ public class HttpRequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String empId = (String) request.getAttribute("empId");
-        log.info("EMP ID -- {}", empId);
+        Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+        String empId = (String) pathVariables.get("empId");
+        if (Objects.nonNull(empId) && !empId.matches("\\d+")) {
+            throw Common4XXExceptionEnum.INVALID_EMP_ID.getException();
+        }
         return true;
     }
 
@@ -30,6 +36,5 @@ public class HttpRequestInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("Ending ===> {}", request.getPathInfo());
     }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Common5XXExceptionEnum {
-    INTERNAL_SERVER_ERROR(5001, "Unexpected Error", "Unexpected errr occurred in the application");
+    INTERNAL_SERVER_ERROR(5001, "Internal Server Error", "Unexpected error occurred in the application");
     private int code;
     private String message;
     private String details;
