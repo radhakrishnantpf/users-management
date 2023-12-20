@@ -3,14 +3,14 @@ package com.sukri.users.management.exception;
 import com.sukri.users.management.model.ErrorInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 @Getter
-public abstract class BaseException extends RuntimeException {
-    private List<ErrorInfo> errors;
-
-    public BaseException(List<ErrorInfo> errors) {
-        this.errors = errors;
-    }
+@AllArgsConstructor
+public class BaseException extends RuntimeException {
+    private HttpStatus httpStatus;
+    private ErrorInfo error;
 }

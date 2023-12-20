@@ -23,18 +23,15 @@ public class UserDetails implements Serializable {
     @JsonIgnore
     private Long id;
     private String title;
-    @JsonProperty("firstname")
     private String firstName;
-    @JsonProperty("lastName")
     private String lastName;
     private String gender;
-    @JsonProperty("empid")
     private String empId;
     @JsonIgnore
     private Date createdDateTime;
     @JsonIgnore
     private Date updatedDateTime;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
     private List<AddressDetails> address = new ArrayList<>();
 
     @Override

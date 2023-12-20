@@ -1,6 +1,7 @@
 package com.sukri.users.management.controller;
 
 import com.sukri.users.management.entity.UserDetails;
+import com.sukri.users.management.model.UserModel;
 import com.sukri.users.management.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,14 +18,14 @@ public class UserDetailsController {
 
     @GetMapping(value = "/userdetails")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDetails> getAllUserDetails(@RequestParam(value = "firstname", required = false) String firstName,
-                                               @RequestParam(value = "lastname", required = false) String lastName) {
+    public List<UserModel> getAllUserDetails(@RequestParam(value = "firstname", required = false) String firstName,
+                                             @RequestParam(value = "lastname", required = false) String lastName) {
         return userService.getAllUserDetails(firstName, lastName);
     }
 
     @PatchMapping("/userdetails/{empId}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDetails updateUserDetails(@PathVariable(value="empId") String empId, @RequestBody UserDetails userDetails) {
-        return userService.updateUserDetails(empId, userDetails);
+    public UserDetails updateUserDetails(@PathVariable(value="empId") String empId, @RequestBody UserModel userModel) {
+        return userService.updateUserDetails(empId, userModel);
     }
 }

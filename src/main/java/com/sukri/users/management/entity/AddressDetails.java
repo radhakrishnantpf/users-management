@@ -18,19 +18,13 @@ public class AddressDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "street")
     private String street;
-    @Column(name = "city")
     private String city;
-    @Column(name = "state")
     private String state;
-    @Column(name = "postcode")
-    private String postcode;
+    private Long postcode;
     @CreationTimestamp
-    @JsonIgnore
     private Date createdDateTime;
     @CreationTimestamp
-    @JsonIgnore
     private Date updatedDateTime;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -49,4 +43,5 @@ public class AddressDetails implements Serializable {
                 ", updatedDateTime=" + updatedDateTime +
                 '}';
     }
+
 }
